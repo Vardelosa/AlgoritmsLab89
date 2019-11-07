@@ -78,11 +78,87 @@ namespace AlgoritmsLab8
             }
 
             return current;
-
         }
-        public void Delete(int value)
+        public bool Delete(int value)
         {
-            Node current = head;
+            Node current, parent;
+
+            current = Find(value, out parent);
+
+            if (current == null)
+                return false;
+
+            count--;
+
+            if(current.right==null)
+            {
+                if(parent==null)
+                {
+                    head = current.left;
+                }
+                else
+                {
+                    if(parent.Data > current.Data)
+                    {
+                        parent.left = current.left;
+                    }
+                    else if(parent.Data < current.Data)
+                    {
+                        parent.right = current.left;
+                    }
+                }
+            }
+            else if(current.right.left == null)
+            {
+                current.right.left = current.left;
+
+                if (parent == null)
+                {
+                    head = current.left;
+                }
+                else
+                {
+                    if(parent.Data>current.Data)
+                    {
+                        parent.left = current.right;
+                    }
+                    else if (parent.Data < current.Data)
+                    {
+                        parent.right = current.right;
+                    }
+                }
+            }
+            else
+            {
+                Node leftmost = current.right.left;
+                Node leftmostparent = current.right;
+                while(leftmost.left != null)
+                {
+                    leftmostparent = leftmost;
+                    leftmost = leftmost.left;                 
+                }
+                leftmostparent.left = leftmost.right;
+
+                leftmost.left = current.left;
+                leftmost.right = current.right;
+
+                if (parent == null)
+                {
+                    head = current.left;
+                }
+                else
+                {
+                    if(parent.Data>current.Data)
+                    {
+                        parent.left = leftmost;
+                    }
+                    else if(parent.Data<current.Data)
+                    {
+                        parent.right = leftmost;
+                    }
+                }
+            }
+            return true;
         }
 
     }
