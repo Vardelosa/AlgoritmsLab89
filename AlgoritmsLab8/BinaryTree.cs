@@ -24,9 +24,9 @@ namespace AlgoritmsLab8
         }
         public void StepAdd(Node node, int value)
         {
-            if(value<node.Data)
+            if (value < node.Data)
             {
-                if(node.left == null)
+                if (node.left == null)
                 {
                     node.left = new Node(value);
                 }
@@ -35,9 +35,9 @@ namespace AlgoritmsLab8
                     StepAdd(node.left, value);
                 }
             }
-            if(value>node.Data)
+            if (value > node.Data)
             {
-                if(node.right==null)
+                if (node.right == null)
                 {
                     node.right = new Node(value);
                 }
@@ -59,14 +59,14 @@ namespace AlgoritmsLab8
 
             parent = null;
 
-            while(current!=null)
+            while (current != null)
             {
-                if(current.Data>value)//Если искомое меньше
+                if (current.Data > value)//Если искомое меньше
                 {
                     parent = current;
                     current = current.left;
                 }
-                else if(current.Data<value)//Если искомое больше
+                else if (current.Data < value)//Если искомое больше
                 {
                     parent = current;
                     current = current.right;
@@ -90,25 +90,25 @@ namespace AlgoritmsLab8
 
             count--;
 
-            if(current.right==null)
+            if (current.right == null)
             {
-                if(parent==null)
+                if (parent == null)
                 {
                     head = current.left;
                 }
                 else
                 {
-                    if(parent.Data > current.Data)
+                    if (parent.Data > current.Data)
                     {
                         parent.left = current.left;
                     }
-                    else if(parent.Data < current.Data)
+                    else if (parent.Data < current.Data)
                     {
                         parent.right = current.left;
                     }
                 }
             }
-            else if(current.right.left == null)
+            else if (current.right.left == null)
             {
                 current.right.left = current.left;
 
@@ -118,7 +118,7 @@ namespace AlgoritmsLab8
                 }
                 else
                 {
-                    if(parent.Data>current.Data)
+                    if (parent.Data > current.Data)
                     {
                         parent.left = current.right;
                     }
@@ -132,10 +132,10 @@ namespace AlgoritmsLab8
             {
                 Node leftmost = current.right.left;
                 Node leftmostparent = current.right;
-                while(leftmost.left != null)
+                while (leftmost.left != null)
                 {
                     leftmostparent = leftmost;
-                    leftmost = leftmost.left;                 
+                    leftmost = leftmost.left;
                 }
                 leftmostparent.left = leftmost.right;
 
@@ -148,11 +148,11 @@ namespace AlgoritmsLab8
                 }
                 else
                 {
-                    if(parent.Data>current.Data)
+                    if (parent.Data > current.Data)
                     {
                         parent.left = leftmost;
                     }
-                    else if(parent.Data<current.Data)
+                    else if (parent.Data < current.Data)
                     {
                         parent.right = leftmost;
                     }
@@ -160,6 +160,82 @@ namespace AlgoritmsLab8
             }
             return true;
         }
+        public void PryamoiObhodFind(int element)
+        {
+            Steps = 0;
+            PryamoiObhodFind(element, head);
+        }
+        int Steps;
+        private void PryamoiObhodFind(int element, Node node)
+        {
+            if (node != null)
+            {
+                if (element == node.Data)
+                {
+                    Console.WriteLine($"Element '{node.Data}' has been found. Steps was made: {Steps}");
+                }
+                Steps++;
+                PryamoiObhodFind(element, node.left);
+                PryamoiObhodFind(element, node.right);
+            }
+        }
+        public void ObratniyObhodFind(int element)
+        {
+            Steps = 0;
+            ObratniyObhodFind(element, head);
+        }
 
+        private void ObratniyObhodFind(int element, Node node)
+        {
+            if (node != null)
+            {
+                ObratniyObhodFind(element, node.left);
+                ObratniyObhodFind(element, node.right);
+                if (element == node.Data)
+                {
+                    Console.WriteLine($"Element '{node.Data}' has been found. Steps was made: {Steps}");
+                }
+                Steps++;
+            }
+        }
+        public void FindTheWayPryamoi()
+        {
+            Steps = 0;
+            FindTheWayPryamoi(head);
+        }
+        private void FindTheWayPryamoi(Node node)
+        {
+            if (node != null)
+            {
+                if (node.right == null & node.left == null)
+                {
+                    Console.WriteLine("The way: {0}", Steps);
+                    Steps = 0;
+                }
+                Steps++;
+                FindTheWayPryamoi(node.left);
+                FindTheWayPryamoi(node.right);
+            }
+        }
+        public void FindTheWayObratniy()
+        {
+            Steps = 0;
+            FindTheWayObratniy(head);
+        }
+        private void FindTheWayObratniy(Node node)
+        {
+            if (node != null)
+            {
+                FindTheWayObratniy(node.left);
+                FindTheWayObratniy(node.right);
+                if (node.right == null & node.left == null)
+                {
+                    Console.WriteLine("The way: {0}", Steps);
+                    Steps = 0;
+                }
+                Steps++;
+                
+            }
+        }
     }
 }
